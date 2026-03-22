@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GameProvider } from "@/context/GameContext";
 import BottomNav from "@/components/BottomNav";
+import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import SectorPage from "./pages/SectorPage";
 import QuizPage from "./pages/QuizPage";
@@ -19,17 +20,39 @@ const App = () => (
       <Sonner />
       <GameProvider>
         <BrowserRouter>
-          <div className="max-w-md mx-auto min-h-screen relative">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/sector/:sectorId" element={<SectorPage />} />
-              <Route path="/quiz/:sectorId/:levelId" element={<QuizPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <BottomNav />
-          </div>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={
+              <div className="max-w-md mx-auto min-h-screen relative">
+                <HomePage />
+                <BottomNav />
+              </div>
+            } />
+            <Route path="/sector/:sectorId" element={
+              <div className="max-w-md mx-auto min-h-screen relative">
+                <SectorPage />
+                <BottomNav />
+              </div>
+            } />
+            <Route path="/quiz/:sectorId/:levelId" element={
+              <div className="max-w-md mx-auto min-h-screen relative">
+                <QuizPage />
+              </div>
+            } />
+            <Route path="/profile" element={
+              <div className="max-w-md mx-auto min-h-screen relative">
+                <ProfilePage />
+                <BottomNav />
+              </div>
+            } />
+            <Route path="/leaderboard" element={
+              <div className="max-w-md mx-auto min-h-screen relative">
+                <LeaderboardPage />
+                <BottomNav />
+              </div>
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </BrowserRouter>
       </GameProvider>
     </TooltipProvider>
