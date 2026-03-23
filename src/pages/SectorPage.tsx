@@ -25,14 +25,10 @@ export default function SectorPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const sector = sectors.find(s => s.id === sectorId);
-  if (!sector) return <div className="p-8 text-center font-display">Sector not found</div>;
-
-  const SectorIcon = sectorIcons[sector.id] || BookOpen;
-  const completedCount = sector.levels.filter(l => isLevelCompleted(sector.id, l.id)).length;
-  const progress = Math.round((completedCount / sector.levels.length) * 100);
-
-  // Find first incomplete level to auto-scroll
-  const firstIncomplete = sector.levels.find(l => !isLevelCompleted(sector.id, l.id) && isLevelUnlocked(sector.id, l.id));
+  const SectorIcon = sector ? (sectorIcons[sector.id] || BookOpen) : BookOpen;
+  const completedCount = sector ? sector.levels.filter(l => isLevelCompleted(sector.id, l.id)).length : 0;
+  const progress = sector ? Math.round((completedCount / sector.levels.length) * 100) : 0;
+  const firstIncomplete = sector?.levels.find(l => !isLevelCompleted(sector.id, l.id) && isLevelUnlocked(sector.id, l.id));
 
   useEffect(() => {
     if (firstIncomplete && scrollRef.current) {
@@ -42,6 +38,8 @@ export default function SectorPage() {
       }
     }
   }, [firstIncomplete]);
+
+  if (!sector) return <div className="p-8 text-center font-display">Sector not found</div>;
 
   // Get stars for completed level
   const getLevelStars = (sectorId: string, levelId: number): number => {
