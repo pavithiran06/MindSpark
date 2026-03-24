@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
 import { useGame } from '@/context/GameContext';
 import { dailyMissions } from '@/data/mockData';
-import { Trophy, Flame, Target, Zap, Star, ChevronRight, Atom, FlaskConical, Leaf, Globe, BookOpen, Sparkles, TrendingUp } from 'lucide-react';
+import { Trophy, Flame, Target, Zap, Star, ChevronRight, Atom, FlaskConical, Leaf, Globe, BookOpen, Brain, TrendingUp } from 'lucide-react';
 
 const leagueColors = { bronze: 'text-bronze', silver: 'text-silver', gold: 'text-gold' };
 const leagueLabels = { bronze: 'Bronze League', silver: 'Silver League', gold: 'Gold League' };
@@ -37,22 +37,22 @@ export default function HomePage() {
     <div className="min-h-screen bg-background pb-24">
       {/* Hero Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-xp/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/8" />
         <div className="relative px-5 pt-6 pb-6">
           <div className="flex items-center justify-between animate-slide-up">
             <div>
               <p className="text-muted-foreground font-body text-xs font-bold uppercase tracking-widest">Welcome back</p>
               <h1 className="text-2xl font-display font-bold text-foreground mt-0.5 flex items-center gap-2">
                 {profile.name}
-                <Sparkles className="w-5 h-5 text-xp" />
+                <Zap className="w-5 h-5 text-xp" />
               </h1>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm rounded-2xl px-3.5 py-2 shadow-[0_2px_8px_hsl(var(--foreground)/0.06)] border border-border/60">
+              <div className="flex items-center gap-1.5 glass rounded-2xl px-3.5 py-2">
                 <Flame className="w-4 h-4 text-streak" />
                 <span className="font-display font-bold text-sm tabular-nums">{profile.dailyStreak}</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm rounded-2xl px-3.5 py-2 shadow-[0_2px_8px_hsl(var(--foreground)/0.06)] border border-border/60">
+              <div className="flex items-center gap-1.5 glass rounded-2xl px-3.5 py-2">
                 <Zap className="w-4 h-4 text-xp" />
                 <span className="font-display font-bold text-sm tabular-nums">{profile.xp.toLocaleString()}</span>
               </div>
@@ -63,8 +63,8 @@ export default function HomePage() {
 
       {/* League Banner */}
       <div className="px-5 mb-5 animate-slide-up" style={{ animationDelay: '80ms' }}>
-        <div className="bg-card rounded-2xl p-4 shadow-[0_2px_12px_hsl(var(--foreground)/0.06)] border border-border/60 relative overflow-hidden">
-          <div className="absolute -right-8 -top-8 w-24 h-24 bg-primary/5 rounded-full" />
+        <div className="glass rounded-2xl p-4 relative overflow-hidden">
+          <div className="absolute -right-8 -top-8 w-24 h-24 bg-primary/8 rounded-full blur-xl" />
           <div className="flex items-center gap-3 relative z-10">
             <div className={`w-14 h-14 rounded-2xl ${leagueBg[profile.league]} flex items-center justify-center`}>
               <Trophy className={`w-7 h-7 ${leagueColors[profile.league]}`} />
@@ -79,7 +79,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex-1 h-3 bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-primary via-xp to-streak rounded-full animate-progress-fill"
+                    className="h-full bg-gradient-to-r from-primary via-accent to-xp rounded-full animate-progress-fill"
                     style={{ width: `${leagueProgress}%` }}
                   />
                 </div>
@@ -93,11 +93,11 @@ export default function HomePage() {
       <div className="px-5 mb-5 animate-slide-up" style={{ animationDelay: '120ms' }}>
         <div className="grid grid-cols-3 gap-2.5">
           {[
-            { icon: Target, label: 'Accuracy', value: `${profile.stats.accuracy}%`, color: 'text-primary', bg: 'bg-primary/8' },
-            { icon: Flame, label: 'Best Streak', value: `${profile.stats.highestStreak}`, color: 'text-streak', bg: 'bg-streak/8' },
-            { icon: TrendingUp, label: 'Levels', value: `${profile.stats.completedLevels}`, color: 'text-correct', bg: 'bg-correct/8' },
+            { icon: Target, label: 'Accuracy', value: `${profile.stats.accuracy}%`, color: 'text-primary', bg: 'bg-primary/10' },
+            { icon: Flame, label: 'Best Streak', value: `${profile.stats.highestStreak}`, color: 'text-streak', bg: 'bg-streak/10' },
+            { icon: TrendingUp, label: 'Levels', value: `${profile.stats.completedLevels}`, color: 'text-correct', bg: 'bg-correct/10' },
           ].map(stat => (
-            <div key={stat.label} className="bg-card rounded-2xl p-3 border border-border/60 shadow-[0_1px_4px_hsl(var(--foreground)/0.03)] text-center">
+            <div key={stat.label} className="glass rounded-2xl p-3 text-center">
               <stat.icon className={`w-4 h-4 ${stat.color} mx-auto mb-1`} />
               <p className="font-display font-bold text-base text-foreground tabular-nums">{stat.value}</p>
               <p className="text-[10px] text-muted-foreground font-body font-semibold">{stat.label}</p>
@@ -113,15 +113,15 @@ export default function HomePage() {
         </h2>
         <div className="space-y-2.5">
           {dailyMissions.map(mission => (
-            <div key={mission.id} className="bg-card rounded-2xl p-3.5 border border-border/60 flex items-center gap-3 shadow-[0_1px_3px_hsl(var(--foreground)/0.04)] hover:shadow-[0_4px_16px_hsl(var(--foreground)/0.08)] transition-all duration-300 press-effect">
-              <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center shrink-0">
+            <div key={mission.id} className="glass rounded-2xl p-3.5 flex items-center gap-3 hover:shadow-[0_4px_16px_hsl(var(--primary)/0.1)] transition-all duration-300 press-effect">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Star className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-body font-bold text-sm text-foreground truncate">{mission.title}</p>
                 <div className="flex items-center gap-2 mt-1">
                   <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-primary rounded-full" style={{ width: `${(mission.progress / mission.target) * 100}%` }} />
+                    <div className="h-full bg-gradient-to-r from-primary to-accent rounded-full" style={{ width: `${(mission.progress / mission.target) * 100}%` }} />
                   </div>
                   <span className="text-[10px] text-muted-foreground font-display font-bold tabular-nums">{mission.progress}/{mission.target}</span>
                 </div>
@@ -146,7 +146,7 @@ export default function HomePage() {
               <button
                 key={sector.id}
                 onClick={() => navigate(`/sector/${sector.id}`)}
-                className={`w-full ${sector.bgGradient} rounded-2xl p-5 text-left press-effect shadow-[0_4px_16px_hsl(var(--foreground)/0.1)] hover:shadow-[0_8px_32px_hsl(var(--foreground)/0.15)] transition-all duration-300 relative overflow-hidden group`}
+                className={`w-full ${sector.bgGradient} rounded-2xl p-5 text-left press-effect shadow-[0_4px_16px_hsl(var(--primary)/0.15)] hover:shadow-[0_8px_32px_hsl(var(--primary)/0.2)] transition-all duration-300 relative overflow-hidden group`}
               >
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-3">

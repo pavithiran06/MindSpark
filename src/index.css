@@ -6,65 +6,70 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 230 25% 7%;
+    --foreground: 220 20% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 230 20% 12%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 230 20% 12%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 262 83% 58%;
+    --primary: 260 85% 62%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 230 18% 18%;
+    --secondary-foreground: 220 20% 85%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 230 15% 16%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 210 100% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 262 83% 58%;
+    --border: 230 15% 20%;
+    --input: 230 15% 20%;
+    --ring: 260 85% 62%;
 
     --radius: 0.75rem;
 
+    /* Neon accents */
+    --neon-blue: 210 100% 60%;
+    --neon-pink: 330 90% 62%;
+    --neon-purple: 270 90% 65%;
+
     /* Sector colors */
-    --physics: 271 91% 65%;
-    --chemistry: 142 71% 45%;
-    --biology: 350 89% 60%;
-    --earth-space: 217 91% 60%;
-    --general: 38 92% 50%;
+    --physics: 270 90% 68%;
+    --chemistry: 160 70% 48%;
+    --biology: 340 85% 60%;
+    --earth-space: 210 90% 58%;
+    --general: 38 92% 55%;
 
     /* Game colors */
     --correct: 160 84% 39%;
     --wrong: 0 84% 60%;
-    --quiz-bg: 222 47% 11%;
-    --quiz-foreground: 210 40% 98%;
-    --xp: 45 93% 47%;
-    --streak: 25 95% 53%;
+    --quiz-bg: 230 25% 7%;
+    --quiz-foreground: 220 20% 95%;
+    --xp: 45 93% 52%;
+    --streak: 25 95% 55%;
     --combo: 280 87% 65%;
 
     /* Leagues */
     --bronze: 30 60% 50%;
     --silver: 210 10% 65%;
-    --gold: 45 93% 47%;
+    --gold: 45 93% 52%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 230 20% 10%;
+    --sidebar-foreground: 220 20% 85%;
+    --sidebar-primary: 260 85% 62%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 18% 18%;
+    --sidebar-accent-foreground: 220 20% 85%;
+    --sidebar-border: 230 15% 20%;
+    --sidebar-ring: 260 85% 62%;
   }
 }
 
@@ -95,11 +100,17 @@
 }
 
 /* Sector card gradients */
-.sector-physics { background: linear-gradient(135deg, hsl(271 91% 65%), hsl(280 87% 55%)); }
-.sector-chemistry { background: linear-gradient(135deg, hsl(142 71% 45%), hsl(160 84% 39%)); }
-.sector-biology { background: linear-gradient(135deg, hsl(350 89% 60%), hsl(330 80% 55%)); }
-.sector-earth { background: linear-gradient(135deg, hsl(217 91% 60%), hsl(200 90% 50%)); }
-.sector-general { background: linear-gradient(135deg, hsl(38 92% 50%), hsl(25 95% 53%)); }
+.sector-physics { background: linear-gradient(135deg, hsl(270 90% 68%), hsl(280 87% 55%)); }
+.sector-chemistry { background: linear-gradient(135deg, hsl(160 70% 48%), hsl(170 80% 38%)); }
+.sector-biology { background: linear-gradient(135deg, hsl(340 85% 60%), hsl(320 80% 50%)); }
+.sector-earth { background: linear-gradient(135deg, hsl(210 90% 58%), hsl(195 90% 48%)); }
+.sector-general { background: linear-gradient(135deg, hsl(38 92% 55%), hsl(25 95% 50%)); }
+
+/* Neon glow utilities */
+.glow-primary { box-shadow: 0 0 20px hsl(260 85% 62% / 0.3), 0 0 60px hsl(260 85% 62% / 0.1); }
+.glow-accent { box-shadow: 0 0 20px hsl(210 100% 60% / 0.3), 0 0 60px hsl(210 100% 60% / 0.1); }
+.glow-neon-pink { box-shadow: 0 0 20px hsl(330 90% 62% / 0.3), 0 0 60px hsl(330 90% 62% / 0.1); }
+.text-glow { text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
 
 /* Quiz answer animations */
 @keyframes shake {
@@ -123,31 +134,52 @@
   0%, 100% { box-shadow: 0 0 0 0 currentColor; }
   50% { box-shadow: 0 0 20px 4px currentColor; }
 }
-@keyframes confetti-fall {
-  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
 @keyframes bounce-in {
   0% { transform: scale(0.3); opacity: 0; }
   50% { transform: scale(1.05); }
   70% { transform: scale(0.95); }
   100% { transform: scale(1); opacity: 1; }
 }
-@keyframes countdown {
-  from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: 283; }
-}
 @keyframes flash {
   0% { opacity: 0.6; }
   100% { opacity: 0; }
 }
-.animate-flash { animation: flash 0.5s ease-out forwards; }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes spark {
+  0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+  100% { opacity: 0; transform: scale(0.5) rotate(360deg); }
+}
+@keyframes splash-fade {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+@keyframes splash-logo {
+  0% { opacity: 0; transform: scale(0.6); filter: blur(8px); }
+  40% { opacity: 1; transform: scale(1.05); filter: blur(0); }
+  60% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+@keyframes splash-text {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
+.animate-flash { animation: flash 0.5s ease-out forwards; }
 .animate-shake { animation: shake 0.4s ease-in-out; }
 .animate-pop { animation: pop 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 .animate-slide-up { animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 .animate-progress-fill { animation: progress-fill 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-spark { animation: spark 2s ease-in-out infinite; }
+.animate-splash-fade { animation: splash-fade 2.8s ease-in-out forwards; }
+.animate-splash-logo { animation: splash-logo 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-splash-text { animation: splash-text 0.6s ease-out 0.6s forwards; opacity: 0; }
 
 /* Stagger children */
 .stagger-children > * { opacity: 0; animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -175,4 +207,11 @@
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
+}
+
+/* Glass morphism utility */
+.glass {
+  background: hsl(230 20% 12% / 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(230 15% 25% / 0.5);
 }

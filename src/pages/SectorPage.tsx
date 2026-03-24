@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
 import { useGame } from '@/context/GameContext';
-import { ArrowLeft, Lock, CheckCircle2, Star, Atom, FlaskConical, Leaf, Globe, BookOpen, Sparkles } from 'lucide-react';
+import { ArrowLeft, Lock, CheckCircle2, Star, Atom, FlaskConical, Leaf, Globe, BookOpen, Sparkles, Zap, Flame, Trophy } from 'lucide-react';
 
 const sectorIcons: Record<string, React.ElementType> = {
   physics: Atom,
@@ -39,26 +39,26 @@ export default function SectorPage() {
     }
   }, [firstIncomplete]);
 
-  if (!sector) return <div className="p-8 text-center font-display">Sector not found</div>;
+  if (!sector) return <div className="p-8 text-center font-display text-foreground">Sector not found</div>;
 
-  // Get stars for completed level
   const getLevelStars = (sectorId: string, levelId: number): number => {
-    const key = `sciquest-stars-${sectorId}-${levelId}`;
+    const key = `mindspark-stars-${sectorId}-${levelId}`;
     const saved = localStorage.getItem(key);
     return saved ? parseInt(saved) : 0;
   };
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      {/* Header */}
-      <div className={`${sector.bgGradient} px-5 pt-6 pb-12 relative overflow-hidden`}>
+      {/* Hero Header */}
+      <div className={`${sector.bgGradient} px-5 pt-6 pb-14 relative overflow-hidden`}>
         <button onClick={() => navigate('/home')} className="flex items-center gap-2 text-white/70 mb-5 press-effect hover:text-white/90 transition-colors">
           <ArrowLeft className="w-5 h-5" />
           <span className="font-body font-bold text-sm">Back</span>
         </button>
         <div className="relative z-10 animate-slide-up">
+          <p className="text-white/50 font-body text-xs font-bold uppercase tracking-widest mb-2">Welcome to MindSpark</p>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/10">
+            <div className="w-16 h-16 rounded-2xl bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/10 animate-float">
               <SectorIcon className="w-8 h-8 text-white" />
             </div>
             <div className="flex-1">
@@ -66,24 +66,53 @@ export default function SectorPage() {
               <p className="text-white/60 font-body text-sm mt-0.5">{sector.description}</p>
             </div>
           </div>
-          {/* Progress */}
-          <div className="mt-5 bg-white/10 rounded-2xl p-3.5 backdrop-blur-sm border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-white/80 font-body text-xs font-bold">Progress</span>
-              <span className="text-white font-display font-bold text-sm">{completedCount}/{sector.levels.length} levels</span>
-            </div>
-            <div className="h-3 bg-white/15 rounded-full overflow-hidden">
-              <div className="h-full bg-white rounded-full transition-all duration-700 ease-out" style={{ width: `${progress}%` }} />
-            </div>
+        </div>
+
+        {/* Progress Dashboard */}
+        <div className="mt-5 grid grid-cols-3 gap-2.5 relative z-10 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <div className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm border border-white/10 text-center">
+            <p className="font-display font-bold text-xl text-white">{completedCount}/{sector.levels.length}</p>
+            <p className="text-white/50 text-[10px] font-body font-bold">Levels</p>
+          </div>
+          <div className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm border border-white/10 text-center">
+            <p className="font-display font-bold text-xl text-white flex items-center justify-center gap-1">
+              <Flame className="w-4 h-4 text-streak" />{profile.dailyStreak}
+            </p>
+            <p className="text-white/50 text-[10px] font-body font-bold">Streak</p>
+          </div>
+          <div className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm border border-white/10 text-center">
+            <p className="font-display font-bold text-xl text-white flex items-center justify-center gap-1">
+              <Trophy className="w-4 h-4 text-xp" />{progress}%
+            </p>
+            <p className="text-white/50 text-[10px] font-body font-bold">Complete</p>
           </div>
         </div>
+
+        {/* Progress bar */}
+        <div className="mt-3 relative z-10 animate-slide-up" style={{ animationDelay: '150ms' }}>
+          <div className="h-3 bg-white/15 rounded-full overflow-hidden">
+            <div className="h-full bg-white rounded-full transition-all duration-700 ease-out" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
         <div className="absolute -right-12 -bottom-12 w-40 h-40 bg-white/8 rounded-full" />
         <div className="absolute right-20 -top-8 w-28 h-28 bg-white/5 rounded-full" />
       </div>
 
+      {/* Action Buttons */}
+      {firstIncomplete && (
+        <div className="px-5 -mt-6 mb-4 relative z-20 animate-slide-up" style={{ animationDelay: '200ms' }}>
+          <button
+            onClick={() => navigate(`/quiz/${sector.id}/${firstIncomplete.id}`)}
+            className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-base py-4 rounded-2xl press-effect glow-primary flex items-center justify-center gap-2"
+          >
+            <Zap className="w-5 h-5" /> Continue Learning
+          </button>
+        </div>
+      )}
+
       {/* Game Path Level Map */}
-      <div ref={scrollRef} className="px-5 -mt-6 relative">
-        {/* Connecting path line */}
+      <div ref={scrollRef} className="px-5 mt-2 relative">
         <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border/40 -translate-x-1/2 z-0" />
 
         <div className="relative z-10 space-y-1">
@@ -108,12 +137,12 @@ export default function SectorPage() {
                     disabled={!unlocked}
                     className={`w-full rounded-2xl p-4 transition-all duration-300 press-effect border-2 text-left
                       ${completed
-                        ? 'bg-correct/5 border-correct/20 shadow-[0_2px_12px_hsl(var(--correct)/0.08)]'
+                        ? 'bg-correct/5 border-correct/20 shadow-[0_2px_12px_hsl(var(--correct)/0.1)]'
                         : isCurrent
-                          ? 'bg-primary/5 border-primary/30 shadow-[0_4px_20px_hsl(var(--primary)/0.12)] ring-2 ring-primary/20'
+                          ? 'glass border-primary/30 shadow-[0_4px_20px_hsl(var(--primary)/0.15)] ring-2 ring-primary/20'
                           : unlocked
-                            ? 'bg-card border-border/60 hover:shadow-lg'
-                            : 'bg-muted/50 border-border/30 opacity-50'
+                            ? 'glass hover:shadow-lg hover:shadow-primary/10'
+                            : 'bg-muted/30 border-border/30 opacity-40'
                       }`}
                   >
                     <div className="flex items-center gap-3">
@@ -131,7 +160,6 @@ export default function SectorPage() {
                         <p className="text-xs text-muted-foreground font-body mt-0.5">
                           {level.questions.length} Q · <span className="text-xp font-bold">+{level.xpReward} XP</span>
                         </p>
-                        {/* Stars */}
                         {completed && (
                           <div className="flex gap-0.5 mt-1">
                             {[1, 2, 3].map(s => (
@@ -154,7 +182,7 @@ export default function SectorPage() {
                   ${completed
                     ? 'bg-correct border-correct/30'
                     : isCurrent
-                      ? 'bg-primary border-primary/30 animate-pulse'
+                      ? 'bg-gradient-to-br from-primary to-accent border-primary/30 glow-primary'
                       : unlocked
                         ? 'bg-card border-border'
                         : 'bg-muted border-border/40'
