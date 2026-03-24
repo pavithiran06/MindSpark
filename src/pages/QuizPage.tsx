@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
 import { useGame } from '@/context/GameContext';
 import { QuizState } from '@/data/types';
-import { X, Zap, Clock, Snowflake, Star, TrendingUp, Target, Flame, ChevronRight, RotateCcw, Sparkles } from 'lucide-react';
+import { X, Zap, Clock, Snowflake, Star, TrendingUp, Target, Flame, ChevronRight, Sparkles } from 'lucide-react';
 
 const QUESTION_TIME = 20;
 
@@ -112,7 +112,7 @@ export default function QuizPage() {
     if (sector && level) {
       const accuracy = Math.round((quiz.correctCount / questions.length) * 100);
       const stars = accuracy >= 90 ? 3 : accuracy >= 60 ? 2 : accuracy > 0 ? 1 : 0;
-      localStorage.setItem(`sciquest-stars-${sector.id}-${level.id}`, String(stars));
+      localStorage.setItem(`mindspark-stars-${sector.id}-${level.id}`, String(stars));
       completeLevel(sector.id, level.id, quiz.score, quiz.correctCount, questions.length, quiz.maxStreak);
     }
     navigate(`/sector/${sectorId}`);
@@ -122,12 +122,11 @@ export default function QuizPage() {
     if (sector && level) {
       const accuracy = Math.round((quiz.correctCount / questions.length) * 100);
       const stars = accuracy >= 90 ? 3 : accuracy >= 60 ? 2 : accuracy > 0 ? 1 : 0;
-      localStorage.setItem(`sciquest-stars-${sector.id}-${level.id}`, String(stars));
+      localStorage.setItem(`mindspark-stars-${sector.id}-${level.id}`, String(stars));
       completeLevel(sector.id, level.id, quiz.score, quiz.correctCount, questions.length, quiz.maxStreak);
       const nextLevel = level.id + 1;
       if (nextLevel <= sector.levels.length) {
         navigate(`/quiz/${sectorId}/${nextLevel}`);
-        // Reset state
         setQuiz({
           currentQuestion: 0, score: 0, streak: 0, maxStreak: 0, correctCount: 0,
           timeLeft: QUESTION_TIME, answers: [], powerUps: { fiftyFifty: 2, freezeTime: 1 },
@@ -154,18 +153,16 @@ export default function QuizPage() {
 
     return (
       <div className="min-h-screen bg-quiz-bg flex flex-col items-center justify-center px-6 text-quiz-foreground relative overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-xp/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-transparent to-accent/8 pointer-events-none" />
         
         <div className="animate-bounce-in text-center w-full max-w-sm relative z-10">
-          {/* Trophy/Icon */}
           <div className="relative mx-auto w-24 h-24 mb-6">
             <div className={`w-24 h-24 rounded-3xl flex items-center justify-center ${
-              stars === 3 ? 'bg-xp/15' : stars === 2 ? 'bg-primary/15' : 'bg-white/5'
+              stars === 3 ? 'bg-gradient-to-br from-xp/20 to-streak/20 glow-accent' : stars === 2 ? 'bg-primary/15' : 'bg-secondary'
             }`}>
               <span className="text-5xl">{stars === 3 ? '🏆' : stars === 2 ? '⭐' : stars === 1 ? '👍' : '💪'}</span>
             </div>
-            {stars === 3 && <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-xp animate-pulse" />}
+            {stars === 3 && <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-xp animate-spark" />}
           </div>
 
           <h1 className="font-display text-3xl font-bold mb-1">
@@ -173,18 +170,16 @@ export default function QuizPage() {
           </h1>
           <p className="text-quiz-foreground/40 font-body mb-6">{level.title} Complete</p>
 
-          {/* Stars */}
           <div className="flex justify-center gap-4 mb-8">
             {[1, 2, 3].map(i => (
               <div key={i} className={`transition-all duration-500 ${i <= stars ? 'scale-100' : 'scale-75 opacity-15'}`}
                 style={{ animationDelay: `${i * 200}ms` }}>
-                <Star className={`w-10 h-10 ${i <= stars ? 'text-xp fill-xp drop-shadow-[0_0_8px_hsl(var(--xp)/0.5)]' : 'text-white/10'}`} />
+                <Star className={`w-10 h-10 ${i <= stars ? 'text-xp fill-xp drop-shadow-[0_0_8px_hsl(var(--xp)/0.5)]' : 'text-muted-foreground/20'}`} />
               </div>
             ))}
           </div>
 
-          {/* Stats */}
-          <div className="bg-white/5 rounded-2xl p-5 mb-6 space-y-3.5 backdrop-blur-sm border border-white/5">
+          <div className="glass rounded-2xl p-5 mb-6 space-y-3.5">
             {[
               { icon: Star, label: 'Score', value: quiz.score.toLocaleString(), color: 'text-xp' },
               { icon: Target, label: 'Accuracy', value: `${accuracy}%`, color: accuracy >= 80 ? 'text-correct' : 'text-quiz-foreground' },
@@ -200,12 +195,11 @@ export default function QuizPage() {
             ))}
           </div>
 
-          {/* Buttons */}
           <div className="space-y-3">
             {hasNextLevel && (
               <button
                 onClick={handleNextLevel}
-                className="w-full bg-primary text-primary-foreground font-display font-bold text-lg py-4 rounded-2xl press-effect shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-lg py-4 rounded-2xl press-effect glow-primary transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Next Level <ChevronRight className="w-5 h-5" />
               </button>
@@ -214,8 +208,8 @@ export default function QuizPage() {
               onClick={handleFinish}
               className={`w-full font-display font-bold text-lg py-4 rounded-2xl press-effect transition-all duration-300 ${
                 hasNextLevel 
-                  ? 'bg-white/5 text-quiz-foreground/70 border border-white/10 hover:bg-white/10' 
-                  : 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                  ? 'glass text-quiz-foreground/70' 
+                  : 'bg-gradient-to-r from-primary to-accent text-primary-foreground glow-primary'
               }`}
             >
               {hasNextLevel ? 'Back to Levels' : 'Continue'}
@@ -226,12 +220,11 @@ export default function QuizPage() {
     );
   }
 
-  const timerColor = quiz.timeLeft <= 5 ? 'text-wrong' : quiz.isTimeFrozen ? 'text-earth-space' : 'text-quiz-foreground/70';
-  const timerBg = quiz.timeLeft <= 5 ? 'bg-wrong/15' : quiz.isTimeFrozen ? 'bg-earth-space/15' : 'bg-white/5';
+  const timerColor = quiz.timeLeft <= 5 ? 'text-wrong' : quiz.isTimeFrozen ? 'text-accent' : 'text-quiz-foreground/70';
+  const timerBg = quiz.timeLeft <= 5 ? 'bg-wrong/15' : quiz.isTimeFrozen ? 'bg-accent/15' : 'bg-secondary';
 
   return (
     <div className="min-h-screen bg-quiz-bg flex flex-col text-quiz-foreground relative">
-      {/* Correct answer flash overlay */}
       {showCorrectFlash && (
         <div className="absolute inset-0 bg-correct/5 pointer-events-none z-50 animate-flash" />
       )}
@@ -239,12 +232,12 @@ export default function QuizPage() {
       {/* Top bar */}
       <div className="px-5 pt-5 pb-3 space-y-3 animate-slide-up">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(`/sector/${sectorId}`)} className="press-effect w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+          <button onClick={() => navigate(`/sector/${sectorId}`)} className="press-effect w-9 h-9 rounded-xl bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors">
             <X className="w-5 h-5 text-quiz-foreground/50" />
           </button>
-          <div className="flex-1 h-3 bg-white/8 rounded-full overflow-hidden">
+          <div className="flex-1 h-3 bg-secondary rounded-full overflow-hidden">
             <div
-              className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -255,11 +248,10 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Animated timer bar */}
-        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+        <div className="h-1 bg-secondary rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-1000 ease-linear ${
-              quiz.timeLeft <= 5 ? 'bg-wrong' : quiz.isTimeFrozen ? 'bg-earth-space' : 'bg-primary/60'
+              quiz.timeLeft <= 5 ? 'bg-wrong' : quiz.isTimeFrozen ? 'bg-accent' : 'bg-primary/60'
             }`}
             style={{ width: `${timerProgress}%` }}
           />
@@ -293,13 +285,13 @@ export default function QuizPage() {
             const isEliminated = quiz.eliminatedOptions.includes(i);
             const isSelected = selectedAnswer === i;
             const isCorrect = i === current.correctIndex;
-            let optionStyle = 'bg-white/5 border-white/8 hover:bg-white/10 hover:border-white/15';
+            let optionStyle = 'glass hover:border-primary/30';
 
             if (showResult) {
               if (isCorrect) optionStyle = 'bg-correct/15 border-correct/50 shadow-[0_0_20px_hsl(var(--correct)/0.15)]';
               else if (isSelected && !isCorrect) optionStyle = 'bg-wrong/15 border-wrong/50 animate-shake';
             } else if (isEliminated) {
-              optionStyle = 'bg-white/2 border-white/3 opacity-25 pointer-events-none';
+              optionStyle = 'bg-muted/20 border-border/20 opacity-25 pointer-events-none';
             }
 
             return (
@@ -311,7 +303,7 @@ export default function QuizPage() {
               >
                 <span className="flex items-center gap-3">
                   <span className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-display font-bold shrink-0 ${
-                    showResult && isCorrect ? 'bg-correct/20 text-correct' : showResult && isSelected && !isCorrect ? 'bg-wrong/20 text-wrong' : 'bg-white/8'
+                    showResult && isCorrect ? 'bg-correct/20 text-correct' : showResult && isSelected && !isCorrect ? 'bg-wrong/20 text-wrong' : 'bg-secondary'
                   }`}>
                     {showResult && isCorrect ? '✓' : showResult && isSelected && !isCorrect ? '✗' : String.fromCharCode(65 + i)}
                   </span>
@@ -328,7 +320,7 @@ export default function QuizPage() {
         <button
           onClick={handleFiftyFifty}
           disabled={quiz.powerUps.fiftyFifty <= 0 || showResult}
-          className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-5 py-3 font-display font-bold text-sm press-effect disabled:opacity-25 hover:bg-white/8 transition-colors"
+          className="flex items-center gap-2 glass rounded-2xl px-5 py-3 font-display font-bold text-sm press-effect disabled:opacity-25 hover:border-primary/30 transition-colors"
         >
           <Zap className="w-4 h-4 text-xp" />
           50/50 <span className="text-quiz-foreground/40">({quiz.powerUps.fiftyFifty})</span>
@@ -336,9 +328,9 @@ export default function QuizPage() {
         <button
           onClick={handleFreezeTime}
           disabled={quiz.powerUps.freezeTime <= 0 || showResult || quiz.isTimeFrozen}
-          className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-5 py-3 font-display font-bold text-sm press-effect disabled:opacity-25 hover:bg-white/8 transition-colors"
+          className="flex items-center gap-2 glass rounded-2xl px-5 py-3 font-display font-bold text-sm press-effect disabled:opacity-25 hover:border-accent/30 transition-colors"
         >
-          <Snowflake className="w-4 h-4 text-earth-space" />
+          <Snowflake className="w-4 h-4 text-accent" />
           Freeze <span className="text-quiz-foreground/40">({quiz.powerUps.freezeTime})</span>
         </button>
       </div>

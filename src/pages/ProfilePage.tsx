@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGame } from '@/context/GameContext';
 import { sectors } from '@/data/questions';
-import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen } from 'lucide-react';
+import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen, Brain } from 'lucide-react';
 
 const avatars = ['🧑‍🔬', '👩‍🚀', '🧙', '🦸', '🧑‍💻', '👨‍🎓', '👩‍🔬', '🦹', '🧑‍🏫', '👨‍⚕️', '🦊', '🐲'];
 const leagueConfig = {
@@ -14,7 +14,6 @@ export default function ProfilePage() {
   const { profile, updateProfile, isLevelCompleted } = useGame();
   const league = leagueConfig[profile.league];
 
-  // Calculate per-sector stats
   const sectorStats = sectors.map(s => {
     const completed = s.levels.filter(l => isLevelCompleted(s.id, l.id)).length;
     return { name: s.name, completed, total: s.levels.length, pct: Math.round((completed / s.levels.length) * 100) };
@@ -22,12 +21,13 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      {/* Header with gradient */}
+      {/* Header */}
       <div className={`relative overflow-hidden bg-gradient-to-b ${league.gradient} px-5 pt-6 pb-8`}>
-        <div className="text-center animate-slide-up">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
+        <div className="text-center animate-slide-up relative z-10">
           <button
             onClick={() => {}}
-            className="w-24 h-24 rounded-3xl bg-card border-2 border-border/60 shadow-[0_4px_20px_hsl(var(--foreground)/0.08)] flex items-center justify-center mx-auto mb-3 press-effect hover:shadow-[0_8px_32px_hsl(var(--foreground)/0.12)] transition-shadow"
+            className="w-24 h-24 rounded-3xl glass flex items-center justify-center mx-auto mb-3 press-effect hover:shadow-[0_8px_32px_hsl(var(--primary)/0.15)] transition-shadow"
           >
             <span className="text-5xl">{profile.avatar}</span>
           </button>
@@ -49,7 +49,7 @@ export default function ProfilePage() {
                 key={a}
                 onClick={() => updateProfile({ avatar: a })}
                 className={`text-2xl w-12 h-12 rounded-xl flex items-center justify-center press-effect transition-all duration-200
-                  ${profile.avatar === a ? 'bg-primary/10 ring-2 ring-primary shadow-[0_0_12px_hsl(var(--primary)/0.2)]' : 'bg-card border border-border/60 hover:shadow-md hover:border-border'}`}
+                  ${profile.avatar === a ? 'bg-primary/15 ring-2 ring-primary glow-primary' : 'glass hover:border-primary/30'}`}
               >
                 {a}
               </button>
@@ -58,8 +58,8 @@ export default function ProfilePage() {
         </div>
 
         {/* XP Card */}
-        <div className="bg-card rounded-2xl p-4 border border-border/60 mb-4 shadow-[0_2px_12px_hsl(var(--foreground)/0.04)] animate-slide-up relative overflow-hidden" style={{ animationDelay: '120ms' }}>
-          <div className="absolute -right-8 -top-8 w-24 h-24 bg-xp/5 rounded-full" />
+        <div className="glass rounded-2xl p-4 mb-4 animate-slide-up relative overflow-hidden" style={{ animationDelay: '120ms' }}>
+          <div className="absolute -right-8 -top-8 w-24 h-24 bg-xp/8 rounded-full blur-xl" />
           <div className="flex items-center gap-3 mb-3 relative z-10">
             <div className="w-11 h-11 rounded-xl bg-xp/10 flex items-center justify-center">
               <Zap className="w-6 h-6 text-xp" />
@@ -77,12 +77,12 @@ export default function ProfilePage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-5 animate-slide-up" style={{ animationDelay: '160ms' }}>
           {[
-            { icon: Target, label: 'Accuracy', value: `${profile.stats.accuracy}%`, color: 'text-primary', bg: 'bg-primary/8' },
-            { icon: Flame, label: 'Best Streak', value: `${profile.stats.highestStreak}`, color: 'text-streak', bg: 'bg-streak/8' },
-            { icon: BarChart3, label: 'Total Score', value: profile.stats.totalScore.toLocaleString(), color: 'text-earth-space', bg: 'bg-earth-space/8' },
-            { icon: CheckCircle2, label: 'Levels Done', value: `${profile.stats.completedLevels}/125`, color: 'text-correct', bg: 'bg-correct/8' },
+            { icon: Target, label: 'Accuracy', value: `${profile.stats.accuracy}%`, color: 'text-primary', bg: 'bg-primary/10' },
+            { icon: Flame, label: 'Best Streak', value: `${profile.stats.highestStreak}`, color: 'text-streak', bg: 'bg-streak/10' },
+            { icon: BarChart3, label: 'Total Score', value: profile.stats.totalScore.toLocaleString(), color: 'text-accent', bg: 'bg-accent/10' },
+            { icon: CheckCircle2, label: 'Levels Done', value: `${profile.stats.completedLevels}/125`, color: 'text-correct', bg: 'bg-correct/10' },
           ].map(stat => (
-            <div key={stat.label} className="bg-card rounded-2xl p-4 border border-border/60 shadow-[0_1px_4px_hsl(var(--foreground)/0.03)]">
+            <div key={stat.label} className="glass rounded-2xl p-4">
               <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-2.5`}>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </div>
@@ -99,13 +99,13 @@ export default function ProfilePage() {
           </h2>
           <div className="space-y-2.5">
             {sectorStats.map(s => (
-              <div key={s.name} className="bg-card rounded-2xl p-3.5 border border-border/60">
+              <div key={s.name} className="glass rounded-2xl p-3.5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-display font-bold text-sm text-foreground">{s.name}</span>
                   <span className="text-xs text-muted-foreground font-display font-bold tabular-nums">{s.completed}/{s.total}</span>
                 </div>
                 <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${s.pct}%` }} />
+                  <div className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500" style={{ width: `${s.pct}%` }} />
                 </div>
               </div>
             ))}
@@ -121,8 +121,8 @@ export default function ProfilePage() {
             {profile.badges.map(badge => (
               <div
                 key={badge.id}
-                className={`bg-card rounded-2xl p-3.5 border text-center transition-all duration-200
-                  ${badge.earned ? 'border-xp/25 shadow-[0_2px_12px_hsl(var(--xp)/0.1)]' : 'border-border/40 opacity-30 grayscale'}`}
+                className={`glass rounded-2xl p-3.5 text-center transition-all duration-200
+                  ${badge.earned ? 'border-xp/25 shadow-[0_2px_12px_hsl(var(--xp)/0.15)]' : 'opacity-30 grayscale'}`}
               >
                 <div className="text-3xl mb-1.5">{badge.icon}</div>
                 <p className="font-display font-bold text-[11px] text-foreground leading-tight">{badge.name}</p>

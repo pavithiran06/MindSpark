@@ -15,19 +15,19 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem('sciquest-profile');
+    const saved = localStorage.getItem('mindspark-profile');
     return saved ? JSON.parse(saved) : defaultProfile;
   });
 
   const saveProfile = useCallback((p: UserProfile) => {
     setProfile(p);
-    localStorage.setItem('sciquest-profile', JSON.stringify(p));
+    localStorage.setItem('mindspark-profile', JSON.stringify(p));
   }, []);
 
   const updateProfile = useCallback((updates: Partial<UserProfile>) => {
     setProfile(prev => {
       const next = { ...prev, ...updates };
-      localStorage.setItem('sciquest-profile', JSON.stringify(next));
+      localStorage.setItem('mindspark-profile', JSON.stringify(next));
       return next;
     });
   }, []);
@@ -49,13 +49,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       const totalCorrect = prev.stats.correctAnswers + correctCount;
       const totalQs = prev.stats.totalQuestions + totalCount;
       
-      // Check league promotion
-      const newXp = prev.xp + score;
       let league = prev.league;
+      const newXp = prev.xp + score;
       if (newXp >= 5000) league = 'gold';
       else if (newXp >= 2000) league = 'silver';
 
-      // Update badges
       const badges = prev.badges.map(b => {
         if (b.id === 'first-quiz' && !b.earned) return { ...b, earned: true };
         if (b.id === 'streak-3' && maxStreak >= 3) return { ...b, earned: true };
@@ -79,13 +77,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
           correctAnswers: totalCorrect,
         },
       };
-      localStorage.setItem('sciquest-profile', JSON.stringify(next));
+      localStorage.setItem('mindspark-profile', JSON.stringify(next));
       return next;
     });
   }, []);
 
   const usePowerUp = useCallback((_type: 'fiftyFifty' | 'freezeTime') => {
-    return true; // Power-ups are unlimited in demo
+    return true;
   }, []);
 
   return (
