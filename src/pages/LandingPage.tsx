@@ -75,7 +75,7 @@ export default function LandingPage() {
             <span className="font-display font-bold text-xl text-foreground tracking-tight">MindSpark</span>
           </div>
           <button
-            onClick={() => navigate('/home')}
+            onClick={() => navigate('/login')}
             className="bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-sm px-5 py-2.5 rounded-xl press-effect hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
           >
             Start Learning
