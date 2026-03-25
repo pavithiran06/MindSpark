@@ -150,7 +150,7 @@ export default function LandingPage() {
               <RevealSection key={sector.name} delay={i * 80}>
                 <div
                   className={`bg-gradient-to-br ${sector.gradient} rounded-2xl p-6 text-white press-effect cursor-pointer hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden group`}
-                  onClick={() => navigate('/home')}
+                  onClick={() => navigate('/login')}
                 >
                   <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-3 backdrop-blur-sm border border-white/10">
                     <sector.icon className="w-6 h-6" />
