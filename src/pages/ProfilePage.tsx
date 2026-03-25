@@ -14,6 +14,14 @@ const leagueConfig = {
 
 export default function ProfilePage() {
   const { profile, updateProfile, isLevelCompleted } = useGame();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const league = leagueConfig[profile.league];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login', { replace: true });
+  };
   const league = leagueConfig[profile.league];
 
   const sectorStats = sectors.map(s => {
