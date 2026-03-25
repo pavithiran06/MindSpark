@@ -1,7 +1,9 @@
 import React from 'react';
 import { useGame } from '@/context/GameContext';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
-import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen, Brain } from 'lucide-react';
+import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen, Brain, LogOut } from 'lucide-react';
 
 const avatars = ['🧑‍🔬', '👩‍🚀', '🧙', '🦸', '🧑‍💻', '👨‍🎓', '👩‍🔬', '🦹', '🧑‍🏫', '👨‍⚕️', '🦊', '🐲'];
 const leagueConfig = {
@@ -12,7 +14,14 @@ const leagueConfig = {
 
 export default function ProfilePage() {
   const { profile, updateProfile, isLevelCompleted } = useGame();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
   const league = leagueConfig[profile.league];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login', { replace: true });
+  };
 
   const sectorStats = sectors.map(s => {
     const completed = s.levels.filter(l => isLevelCompleted(s.id, l.id)).length;
@@ -129,6 +138,17 @@ export default function ProfilePage() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Logout */}
+        <div className="mt-6 animate-slide-up" style={{ animationDelay: '280ms' }}>
+          <button
+            onClick={handleLogout}
+            className="w-full glass rounded-2xl p-4 flex items-center justify-center gap-2 text-destructive font-display font-bold press-effect hover:bg-destructive/10 transition-all"
+          >
+            <LogOut className="w-5 h-5" />
+            Sign Out
+          </button>
         </div>
       </div>
     </div>

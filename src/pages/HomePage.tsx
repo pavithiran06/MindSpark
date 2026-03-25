@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
 import { useGame } from '@/context/GameContext';
+import { useAuth } from '@/context/AuthContext';
 import { dailyMissions } from '@/data/mockData';
 import { Trophy, Flame, Target, Zap, Star, ChevronRight, Atom, FlaskConical, Leaf, Globe, BookOpen, Brain, TrendingUp } from 'lucide-react';
 
@@ -20,7 +21,8 @@ const sectorIcons: Record<string, React.ElementType> = {
 export default function HomePage() {
   const navigate = useNavigate();
   const { profile, isLevelCompleted } = useGame();
-
+  const { user } = useAuth();
+  const displayName = user?.user_metadata?.full_name || profile.name;
   const getSectorProgress = (sectorId: string, totalLevels: number) => {
     let completed = 0;
     for (let i = 1; i <= totalLevels; i++) {
@@ -43,7 +45,7 @@ export default function HomePage() {
             <div>
               <p className="text-muted-foreground font-body text-xs font-bold uppercase tracking-widest">Welcome back</p>
               <h1 className="text-2xl font-display font-bold text-foreground mt-0.5 flex items-center gap-2">
-                {profile.name}
+                {displayName}
                 <Zap className="w-5 h-5 text-xp" />
               </h1>
             </div>

@@ -13,7 +13,7 @@ export default function BottomNav() {
   const navigate = useNavigate();
 
   // Hide on quiz pages and landing page
-  if (location.pathname.startsWith('/quiz/') || location.pathname === '/') return null;
+  if (location.pathname.startsWith('/quiz/') || location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup') return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-2xl border-t border-border/50 z-50">

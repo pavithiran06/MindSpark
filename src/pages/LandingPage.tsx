@@ -75,7 +75,7 @@ export default function LandingPage() {
             <span className="font-display font-bold text-xl text-foreground tracking-tight">MindSpark</span>
           </div>
           <button
-            onClick={() => navigate('/home')}
+            onClick={() => navigate('/login')}
             className="bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-sm px-5 py-2.5 rounded-xl press-effect hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
           >
             Start Learning
@@ -104,7 +104,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-wrap gap-3 animate-slide-up" style={{ animationDelay: '300ms' }}>
               <button
-                onClick={() => navigate('/home')}
+                onClick={() => navigate('/login')}
                 className="bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-base px-8 py-4 rounded-2xl press-effect hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2 glow-primary"
               >
                 <Zap className="w-5 h-5" /> Play Now
@@ -150,7 +150,7 @@ export default function LandingPage() {
               <RevealSection key={sector.name} delay={i * 80}>
                 <div
                   className={`bg-gradient-to-br ${sector.gradient} rounded-2xl p-6 text-white press-effect cursor-pointer hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden group`}
-                  onClick={() => navigate('/home')}
+                  onClick={() => navigate('/login')}
                 >
                   <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-3 backdrop-blur-sm border border-white/10">
                     <sector.icon className="w-6 h-6" />
@@ -234,7 +234,7 @@ export default function LandingPage() {
                 125 levels across 5 subjects. Start mastering science one question at a time.
               </p>
               <button
-                onClick={() => navigate('/home')}
+                onClick={() => navigate('/login')}
                 className="bg-white text-background font-display font-bold text-base px-8 py-4 rounded-2xl press-effect hover:shadow-xl transition-all duration-300 relative z-10 inline-flex items-center gap-2"
               >
                 <Sparkles className="w-5 h-5 text-primary" /> Start Playing Free
