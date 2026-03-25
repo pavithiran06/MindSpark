@@ -45,7 +45,7 @@ export default function HomePage() {
             <div>
               <p className="text-muted-foreground font-body text-xs font-bold uppercase tracking-widest">Welcome back</p>
               <h1 className="text-2xl font-display font-bold text-foreground mt-0.5 flex items-center gap-2">
-                {profile.name}
+                {displayName}
                 <Zap className="w-5 h-5 text-xp" />
               </h1>
             </div>
