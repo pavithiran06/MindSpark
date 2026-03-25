@@ -21,7 +21,8 @@ const sectorIcons: Record<string, React.ElementType> = {
 export default function HomePage() {
   const navigate = useNavigate();
   const { profile, isLevelCompleted } = useGame();
-
+  const { user } = useAuth();
+  const displayName = user?.user_metadata?.full_name || profile.name;
   const getSectorProgress = (sectorId: string, totalLevels: number) => {
     let completed = 0;
     for (let i = 1; i <= totalLevels; i++) {
