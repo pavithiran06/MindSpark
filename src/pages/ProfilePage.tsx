@@ -22,7 +22,6 @@ export default function ProfilePage() {
     await signOut();
     navigate('/login', { replace: true });
   };
-  const league = leagueConfig[profile.league];
 
   const sectorStats = sectors.map(s => {
     const completed = s.levels.filter(l => isLevelCompleted(s.id, l.id)).length;
