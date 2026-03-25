@@ -234,7 +234,7 @@ export default function LandingPage() {
                 125 levels across 5 subjects. Start mastering science one question at a time.
               </p>
               <button
-                onClick={() => navigate('/home')}
+                onClick={() => navigate('/login')}
                 className="bg-white text-background font-display font-bold text-base px-8 py-4 rounded-2xl press-effect hover:shadow-xl transition-all duration-300 relative z-10 inline-flex items-center gap-2"
               >
                 <Sparkles className="w-5 h-5 text-primary" /> Start Playing Free
