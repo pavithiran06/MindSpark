@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          accuracy: number
+          avatar_url: string | null
+          completed_level_ids: string[]
+          completed_levels: number
+          correct_answers: number
+          created_at: string
+          daily_streak: number
+          display_name: string | null
+          highest_streak: number
+          id: string
+          league: string
+          total_questions: number
+          total_score: number
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          accuracy?: number
+          avatar_url?: string | null
+          completed_level_ids?: string[]
+          completed_levels?: number
+          correct_answers?: number
+          created_at?: string
+          daily_streak?: number
+          display_name?: string | null
+          highest_streak?: number
+          id?: string
+          league?: string
+          total_questions?: number
+          total_score?: number
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          accuracy?: number
+          avatar_url?: string | null
+          completed_level_ids?: string[]
+          completed_levels?: number
+          correct_answers?: number
+          created_at?: string
+          daily_streak?: number
+          display_name?: string | null
+          highest_streak?: number
+          id?: string
+          league?: string
+          total_questions?: number
+          total_score?: number
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
