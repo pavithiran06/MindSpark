@@ -1,7 +1,9 @@
 import React from 'react';
 import { useGame } from '@/context/GameContext';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
-import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen, Brain } from 'lucide-react';
+import { Trophy, Target, Zap, Flame, BarChart3, CheckCircle2, Star, TrendingUp, BookOpen, Brain, LogOut } from 'lucide-react';
 
 const avatars = ['🧑‍🔬', '👩‍🚀', '🧙', '🦸', '🧑‍💻', '👨‍🎓', '👩‍🔬', '🦹', '🧑‍🏫', '👨‍⚕️', '🦊', '🐲'];
 const leagueConfig = {
