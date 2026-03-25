@@ -139,6 +139,17 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
+
+        {/* Logout */}
+        <div className="mt-6 animate-slide-up" style={{ animationDelay: '280ms' }}>
+          <button
+            onClick={handleLogout}
+            className="w-full glass rounded-2xl p-4 flex items-center justify-center gap-2 text-destructive font-display font-bold press-effect hover:bg-destructive/10 transition-all"
+          >
+            <LogOut className="w-5 h-5" />
+            Sign Out
+          </button>
+        </div>
       </div>
     </div>
   );
