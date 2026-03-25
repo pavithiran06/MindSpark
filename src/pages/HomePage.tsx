@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sectors } from '@/data/questions';
 import { useGame } from '@/context/GameContext';
+import { useAuth } from '@/context/AuthContext';
 import { dailyMissions } from '@/data/mockData';
 import { Trophy, Flame, Target, Zap, Star, ChevronRight, Atom, FlaskConical, Leaf, Globe, BookOpen, Brain, TrendingUp } from 'lucide-react';
 
