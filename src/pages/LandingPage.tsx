@@ -104,7 +104,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-wrap gap-3 animate-slide-up" style={{ animationDelay: '300ms' }}>
               <button
-                onClick={() => navigate('/home')}
+                onClick={() => navigate('/login')}
                 className="bg-gradient-to-r from-primary to-accent text-primary-foreground font-display font-bold text-base px-8 py-4 rounded-2xl press-effect hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2 glow-primary"
               >
                 <Zap className="w-5 h-5" /> Play Now
