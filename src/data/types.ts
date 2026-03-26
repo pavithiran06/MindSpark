@@ -7,7 +7,8 @@ export interface Question {
   question: string;
   options: string[];
   correctIndex: number;
-  explanation?: string;
+  explanation: string;
+  difficulty: Difficulty;
 }
 
 export interface Level {
