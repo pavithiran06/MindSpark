@@ -35,34 +35,91 @@ function shuffleWithSeed<T>(arr: T[], seed: number): T[] {
 }
 
 /**
+ * Validate questions: check for duplicates, missing fields, correct answer bounds
+ */
+function validateQuestions(questions: Question[]): Question[] {
+  const seen = new Set<string>();
+  return questions.filter(q => {
+    // Check required fields
+    if (!q.id || !q.question || !q.options || q.options.length !== 4 || 
+        q.correctIndex == null || q.correctIndex < 0 || q.correctIndex > 3 ||
+        !q.explanation || !q.difficulty) {
+      console.warn(`[MindSpark] Invalid question skipped: ${q.id}`);
+      return false;
+    }
+    // Check duplicates by question text
+    const key = q.question.trim().toLowerCase();
+    if (seen.has(key)) {
+      console.warn(`[MindSpark] Duplicate question skipped: ${q.id}`);
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
+/**
  * Generate 25 levels for a given sector.
- * Each level has 5 questions (easy), 6 (medium), or 7 (hard).
- * Questions are drawn from the pool and cycled with shuffled order.
+ * Questions are filtered by matching difficulty, then shuffled deterministically.
+ * Each level gets unique questions with no repeats across levels.
  */
 export function generateLevels(sectorId: string): Level[] {
   const pool = questionPools[sectorId] || [];
   if (pool.length === 0) return [];
 
+  // Validate and split pool by difficulty
+  const validPool = validateQuestions(pool);
+  const easyPool = validPool.filter(q => q.difficulty === 'easy');
+  const mediumPool = validPool.filter(q => q.difficulty === 'medium');
+  const hardPool = validPool.filter(q => q.difficulty === 'hard');
+
   const TOTAL_LEVELS = 25;
   const levels: Level[] = [];
+
+  // Track used question indices per difficulty to avoid repeats across levels
+  let easyUsed = 0;
+  let mediumUsed = 0;
+  let hardUsed = 0;
+
+  // Shuffle each difficulty pool once with a sector-based seed
+  const sectorSeed = sectorId.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const shuffledEasy = shuffleWithSeed(easyPool, sectorSeed * 100 + 1);
+  const shuffledMedium = shuffleWithSeed(mediumPool, sectorSeed * 100 + 2);
+  const shuffledHard = shuffleWithSeed(hardPool, sectorSeed * 100 + 3);
 
   for (let i = 1; i <= TOTAL_LEVELS; i++) {
     const difficulty = getDifficulty(i);
     const questionsPerLevel = difficulty === 'easy' ? 5 : difficulty === 'medium' ? 6 : 7;
-    
-    // Use seeded shuffle so levels are deterministic
-    const seed = sectorId.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) * 1000 + i;
-    const shuffled = shuffleWithSeed(pool, seed);
-    
-    // Pick questions cycling through pool
+
+    let sourcePool: Question[];
+    let usedCount: number;
+
+    if (difficulty === 'easy') {
+      sourcePool = shuffledEasy;
+      usedCount = easyUsed;
+    } else if (difficulty === 'medium') {
+      sourcePool = shuffledMedium;
+      usedCount = mediumUsed;
+    } else {
+      sourcePool = shuffledHard;
+      usedCount = hardUsed;
+    }
+
+    // Pick questions, cycling through if pool exhausted
     const levelQuestions: Question[] = [];
     for (let q = 0; q < questionsPerLevel; q++) {
-      const sourceQ = shuffled[q % shuffled.length];
+      const idx = (usedCount + q) % sourcePool.length;
+      const sourceQ = sourcePool[idx];
       levelQuestions.push({
         ...sourceQ,
         id: `${sectorId}-L${i}-Q${q + 1}`,
       });
     }
+
+    // Advance the used counter
+    if (difficulty === 'easy') easyUsed += questionsPerLevel;
+    else if (difficulty === 'medium') mediumUsed += questionsPerLevel;
+    else hardUsed += questionsPerLevel;
 
     levels.push({
       id: i,

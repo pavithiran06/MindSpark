@@ -313,6 +313,20 @@ export default function QuizPage() {
             );
           })}
         </div>
+
+        {/* Explanation shown after answering */}
+        {showResult && current.explanation && (
+          <div className={`mt-4 p-4 rounded-2xl border-2 text-sm font-body leading-relaxed animate-slide-up ${
+            selectedAnswer === current.correctIndex
+              ? 'bg-correct/10 border-correct/30 text-correct'
+              : 'bg-primary/10 border-primary/30 text-primary'
+          }`}>
+            <span className="font-display font-bold text-xs uppercase tracking-wider block mb-1.5">
+              {selectedAnswer === current.correctIndex ? '✓ Correct!' : '💡 Explanation'}
+            </span>
+            {current.explanation}
+          </div>
+        )}
       </div>
 
       {/* Power-ups */}
