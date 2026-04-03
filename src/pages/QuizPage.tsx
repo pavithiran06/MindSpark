@@ -85,7 +85,7 @@ export default function QuizPage() {
         setSelectedAnswer(null);
         setShowResult(false);
       }
-    }, 1500);
+    }, 2500);
   }, [showResult, current, quiz.streak, quiz.timeLeft, quiz.currentQuestion, questions.length]);
 
   const handleFiftyFifty = () => {
