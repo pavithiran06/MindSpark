@@ -107,24 +107,6 @@ npm run build
 
 ---
 
-## 📸 Screenshots
-
-> Replace these with actual screenshots after uploading them.
-
-### Home Page
-
-![Home](images/home.png)
-
-### Quiz Page
-
-![Quiz](images/quiz.png)
-
-### Results Page
-
-![Results](images/results.png)
-
----
-
 ## 🎯 Learning Objectives
 
 This project helped strengthen my understanding of:
@@ -190,10 +172,10 @@ Computer Science Student | Web Developer | Data Analytics Enthusiast
 - GitHub
 
 LinkedIn:
-(Add your LinkedIn profile URL)
+https://www.linkedin.com/in/pavithirans
 
 GitHub:
-(Add your GitHub profile URL)
+https://github.com/pavithiran06
 
 ---
 
